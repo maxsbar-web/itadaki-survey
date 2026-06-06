@@ -252,7 +252,7 @@
 </div>
 <script>
   const ratings = [null,null,null,null,null];
-  const GOOGLE_REVIEW_URL = 'https://g.page/r/https://g.page/r/CatW-yWsoQldEAE/review/review'; // 実際のURLに変更
+  const GOOGLE_REVIEW_URL = 'https://g.page/r/CatW-yWsoQldEAE/review'; // 実際のURLに変更
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxC1qq1dXmhinVcAEFNNIBh8TTB8ggCaevVPi69KQ_DKxhqkRLbnAkfZLEuv5YzpeUn/exec'; // Google Apps ScriptのURLに変更
   let generatedReview = '';
 
@@ -361,7 +361,7 @@
   }
 
   function saveData(data) {
-    if(GAS_URL === 'https://script.google.com/macros/s/AKfycbxC1qq1dXmhinVcAEFNNIBh8TTB8ggCaevVPi69KQ_DKxhqkRLbnAkfZLEuv5YzpeUn/exec') return;
+    if(GAS_URL === 'YOUR_GAS_URL_HERE') return;
     fetch(GAS_URL,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(console.error);
   }
 </script>
