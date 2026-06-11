@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(2).html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>アンケート｜元祖レア牛丼 頂</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Shippori+Mincho:wght@400;600&display=swap');
+  :root {
+    --black: #0e0e0e;
+    --gold: #c9a84c;
+    --gold-light: #e8cc7a;
+    --cream: #f5f0e8;
+    --red: #8b1a1a;
+    --gray: #bbb;
+    --border: rgba(201,168,76,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content:'';
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,26,26,0.08) 0%, transparent 60%);
+    pointer-events:none; z-index:0;
+  }
+  .container { position:relative; z-index:1; max-width:480px; margin:0 auto; padding:0 0 60px; }
+
+  /* ヘッダー */
+  .header { text-align:center; padding:48px 24px 32px; border-bottom:1px solid var(--border); position:relative; }
+  .header::after { content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:var(--gold); }
+  .logo-mark { font-family:'Shippori Mincho',serif; font-size:36px; color:var(--gold); letter-spacing:0.2em; line-height:1; margin-bottom:8px; }
+  .logo-sub { font-size:13px; letter-spacing:0.3em; color:var(--gray); text-transform:uppercase; }
+  .header-title { margin-top:24px; font-size:16px; letter-spacing:0.25em; color:var(--cream); opacity:0.8; }
+
+  /* ステップ */
+  .steps { display:flex; justify-content:center; gap:8px; padding:24px; }
+  .step-dot { width:6px; height:6px; border-radius:50%; background:rgba(201,168,76,0.3); transition:all 0.3s; }
+  .step-dot.active { background:var(--gold); transform:scale(1.3); }
+  .step-dot.done { background:var(--gold); opacity:0.5; }
+
+  /* セクション */
+  .section { display:none; padding:0 20px; animation:fadeIn 0.4s ease; }
+  .section.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* アンケート */
+  .survey-intro { text-align:center; padding:8px 0 28px; }
+  .survey-intro p { font-size:15px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
+  .survey-intro strong { color:var(--gold); font-weight:400; }
+  .rating-item { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:2px; padding:20px 20px 16px; margin-bottom:12px; transition:border-color 0.3s; }
+  .rating-item.rated { border-color:rgba(201,168,76,0.5); }
+  .rating-label { font-size:14px; letter-spacing:0.25em; color:var(--gray); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .rating-label::before { content:''; display:inline-block; width:16px; height:1px; background:var(--gold); opacity:0.5; }
+  .stars { display:flex; gap:8px; justify-content:center; }
+  .star { font-size:32px; cursor:pointer; color:rgba(255,255,255,0.25); transition:all 0.15s; user-select:none; line-height:1; }
+  .star.active { color:var(--gold); }
+  .star.hover { color:var(--gold-light); transform:scale(1.1); }
+
+  /* ボタン共通 */
+  .btn { width:100%; padding:16px; border:none; border-radius:2px; font-family:'Noto Serif JP',serif; font-size:16px; letter-spacing:0.15em; cursor:pointer; transition:all 0.2s; margin-top:8px; }
+  .btn-primary { background:var(--gold); color:var(--black); font-weight:600; }
+  .btn-primary:hover { background:var(--gold-light); }
+  .btn-primary:disabled { background:rgba(201,168,76,0.3); color:rgba(0,0,0,0.4); cursor:not-allowed; }
+  .btn-secondary { background:transparent; color:var(--gray); border:1px solid rgba(255,255,255,0.1); font-size:14px; letter-spacing:0.2em; }
+  .btn-secondary:hover { border-color:var(--gray); color:var(--cream); }
+
+  /* AI生成中 */
+  .generating { text-align:center; padding:80px 20px; }
+  .generating-spinner { width:40px; height:40px; border:2px solid rgba(201,168,76,0.2); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 20px; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .generating p { font-size:15px; color:var(--gray); letter-spacing:0.2em; }
+
+  /* クチコミ画面 */
+  .review-intro { text-align:center; padding:8px 0 20px; }
+  .review-intro p { font-size:15px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
+  .review-section-title { font-size:13px; letter-spacing:0.35em; color:var(--gold); margin-bottom:12px; text-align:center; }
+  .review-text-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:2px; padding:20px; font-size:16px; line-height:2; color:var(--cream); letter-spacing:0.05em; min-height:140px; white-space:pre-wrap; }
+  .btn-copy { width:100%; padding:14px; margin-top:10px; background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:2px; color:var(--gold); font-family:'Noto Serif JP',serif; font-size:15px; letter-spacing:0.25em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .btn-copy:hover { background:rgba(201,168,76,0.2); }
+  .btn-copy.copied { background:rgba(201,168,76,0.25); border-color:var(--gold-light); color:var(--gold-light); }
+  .btn-google { width:100%; padding:14px; border:1px solid rgba(255,255,255,0.15); border-radius:2px; background:rgba(255,255,255,0.05); color:var(--cream); font-family:'Noto Serif JP',serif; font-size:15px; letter-spacing:0.2em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
+  .btn-google:hover { background:rgba(255,255,255,0.1); }
+  .google-icon { width:18px; height:18px; flex-shrink:0; }
+  .google-hint { font-size:13px; color:var(--gray); text-align:center; letter-spacing:0.1em; line-height:1.8; margin-top:8px; }
+  .divider { display:flex; align-items:center; gap:12px; margin:24px 0; color:var(--gray); font-size:13px; letter-spacing:0.2em; }
+  .divider::before, .divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.08); }
+
+  /* クーポン */
+  .coupon-box { margin:0 0 20px; border:1px solid var(--gold); border-radius:2px; padding:32px 24px; text-align:center; position:relative; background:rgba(201,168,76,0.04); }
+  .coupon-box::before, .coupon-box::after { content:'✦'; position:absolute; color:var(--gold); opacity:0.4; font-size:13px; }
+  .coupon-box::before { top:12px; left:12px; }
+  .coupon-box::after { bottom:12px; right:12px; }
+  .coupon-label { font-size:13px; letter-spacing:0.4em; color:var(--gold); margin-bottom:16px; text-transform:uppercase; }
+  .coupon-discount { font-family:'Shippori Mincho',serif; font-size:52px; color:var(--gold); line-height:1; margin-bottom:4px; }
+  .coupon-discount sup { font-size:20px; vertical-align:super; }
+  .coupon-discount sub { font-size:18px; vertical-align:middle; }
+  .coupon-desc { font-size:16px; color:var(--cream); letter-spacing:0.15em; margin-bottom:20px; }
+  .coupon-code { background:rgba(0,0,0,0.4); border:1px dashed rgba(201,168,76,0.4); padding:10px 20px; display:inline-block; font-size:14px; letter-spacing:0.3em; color:var(--gold-light); margin-bottom:16px; }
+  .coupon-note { font-size:13px; color:var(--gray); letter-spacing:0.1em; line-height:1.8; }
+  .coupon-note em { color:#e88; font-style:normal; }
+
+  /* 完了 */
+  .complete-section { text-align:center; padding:40px 20px; }
+  .complete-mark { font-size:48px; margin-bottom:16px; opacity:0; animation:popIn 0.5s 0.2s ease forwards; }
+  @keyframes popIn { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+  .complete-title { font-family:'Shippori Mincho',serif; font-size:20px; color:var(--gold); letter-spacing:0.3em; margin-bottom:12px; }
+  .complete-text { font-size:15px; color:var(--gray); line-height:2; letter-spacing:0.05em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="logo-mark">頂</div>
+    <div class="logo-sub">ITADAKI — Osu, Nagoya</div>
+    <div class="header-title">お客様アンケート</div>
+  </div>
+
+  <div class="steps">
+    <div class="step-dot active" id="dot0"></div>
+    <div class="step-dot" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+  </div>
+
+  <!-- STEP 1: アンケート -->
+  <div class="section active" id="section-survey">
+    <div class="survey-intro">
+      <p>本日のご来店、ありがとうございました。<br>
+      5項目を<strong>⭐︎でご評価</strong>いただくだけで完了します。<br>
+      ご回答いただいた方に<strong>300円引きクーポン</strong>をプレゼント。</p>
+    </div>
+
+    <div class="rating-item" id="item-0">
+      <div class="rating-label">料理の味</div>
+      <div class="stars" data-index="0">
+        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+      </div>
+    </div>
+    <div class="rating-item" id="item-1">
+      <div class="rating-label">料理の見た目・盛り付け</div>
+      <div class="stars" data-index="1">
+        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+      </div>
+    </div>
+    <div class="rating-item" id="item-2">
+      <div class="rating-label">ボリューム・量</div>
+      <div class="stars" data-index="2">
+        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+      </div>
+    </div>
+    <div class="rating-item" id="item-3">
+      <div class="rating-label">店内の清潔さ・雰囲気</div>
+      <div class="stars" data-index="3">
+        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+      </div>
+    </div>
+    <div class="rating-item" id="item-4">
+      <div class="rating-label">接客・スタッフの対応</div>
+      <div class="stars" data-index="4">
+        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-submit" disabled="" onclick="submitSurvey()">
+      回答する
+    </button>
+  </div>
+
+  <!-- STEP 2: AI生成中 -->
+  <div class="section" id="section-generating">
+    <div class="generating">
+      <div class="generating-spinner"></div>
+      <p>クチコミ文章を作成中...</p>
+    </div>
+  </div>
+
+  <!-- STEP 3: クチコミ文章 + Google誘導 -->
+  <!-- フィードバック（平均3未満） -->
+  <div class="section" id="section-feedback">
+    <div style="text-align:center;padding:60px 20px 40px;">
+      <div style="font-size:48px;margin-bottom:24px;">🙏</div>
+      <p style="font-size:16px;color:var(--gray);line-height:2.2;">貴重なご意見をありがとうございます。<br>当店へのフィードバックとして<br>真摯に受け止め、改善に努めます。</p>
+    </div>
+    <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+      300円引きクーポンを受け取る
+    </button>
+  </div>
+
+  <div class="section" id="section-review">
+    <div class="review-intro">
+      <p>AIがクチコミ文章を作成しました。<br>
+      よろしければ<strong style="color:var(--gold);font-weight:400;">コピーしてGoogleに投稿</strong>してください。</p>
+    </div>
+
+    <div class="review-section-title">— 作成されたクチコミ文章 —</div>
+    <div class="review-text-box" id="review-text"></div>
+
+    <button class="btn-copy" id="btn-copy" onclick="copyReview()">
+      <span id="copy-icon">📋</span>
+      <span id="copy-label">文章をコピーする</span>
+    </button>
+
+    <button class="btn-google" onclick="openGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+      </svg>
+      Googleマップを開く
+    </button>
+    <p class="google-hint">コピーした文章をそのまま貼り付けて投稿できます</p>
+
+    <div class="divider">クーポンを受け取る</div>
+
+    <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+      300円引きクーポンを受け取る
+    </button>
+    <button class="btn btn-secondary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+      投稿せずにクーポンだけ受け取る
+    </button>
+  </div>
+
+  <!-- STEP 4: クーポン -->
+  <div class="section" id="section-coupon">
+    <div style="text-align:center;padding:8px 0 20px;">
+      <p style="font-size:15px;color:var(--gray);line-height:1.8;">ありがとうございました。<br>会計時にこの画面をスタッフへご提示ください。</p>
+    </div>
+    <div class="coupon-box">
+      <div class="coupon-label">Thank you coupon</div>
+      <div class="coupon-discount"><sup>¥</sup>300<sub>引き</sub></div>
+      <div class="coupon-desc">レア牛丼 各種</div>
+      <div class="coupon-code" id="coupon-code">ITADAKI-000000</div>
+      <div class="coupon-note">
+        有効期限：本日限り・初回のみ有効<br>
+        <em>※他クーポンとの併用不可</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: 完了 -->
+  <div class="section" id="section-complete">
+    <div class="complete-section">
+      <div class="complete-mark">🙏</div>
+      <div class="complete-title">ありがとうございました</div>
+      <p class="complete-text">
+        貴重なご意見をいただき、<br>
+        誠にありがとうございます。<br><br>
+        またのご来店を<br>心よりお待ちしております。
+      </p>
+    </div>
+  </div>
+
+</div>
+<script>
+  const ratings = [null,null,null,null,null];
+  const GOOGLE_REVIEW_URL = 'https://g.page/r/CatW-yWsoQldEAE/review'; // 実際のURLに変更
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxC1qq1dXmhinVcAEFNNIBh8TTB8ggCaevVPi69KQ_DKxhqkRLbnAkfZLEuv5YzpeUn/exec'; // Google Apps ScriptのURLに変更
+  let generatedReview = '';
+
+  // 星評価
+  document.querySelectorAll('.stars').forEach(starsEl => {
+    const idx = parseInt(starsEl.dataset.index);
+    const stars = starsEl.querySelectorAll('.star');
+    stars.forEach(star => {
+      const val = parseInt(star.dataset.val);
+      star.addEventListener('click', () => {
+        ratings[idx] = val;
+        stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.val) <= val));
+        document.getElementById(`item-${idx}`).classList.add('rated');
+        document.getElementById('btn-submit').disabled = ratings.some(r => r === null);
+      });
+      star.addEventListener('mouseenter', () => stars.forEach(s => s.classList.toggle('hover', parseInt(s.dataset.val) <= val)));
+      star.addEventListener('mouseleave', () => stars.forEach(s => s.classList.remove('hover')));
+    });
+  });
+
+  async function submitSurvey() {
+    const avg = ratings.reduce((a,b)=>a+b,0)/5;
+    const code = 'ITADAKI-' + Math.random().toString(36).substr(2,6).toUpperCase();
+    document.getElementById('coupon-code').textContent = code;
+    saveData({ ratings, avg:avg.toFixed(1), code, timestamp:new Date().toISOString() });
+
+    if(avg < 3) {
+      // 平均3未満：フィードバック画面（Googleマップに飛ばない）
+      showSection('feedback');
+      updateDots(2);
+    } else {
+      // 平均3以上：AI文章生成してGoogleマップへ誘導
+      showSection('generating');
+      updateDots(1);
+      try {
+        generatedReview = await generateReview();
+      } catch(e) {
+        generatedReview = buildFallback();
+      }
+      document.getElementById('review-text').textContent = generatedReview;
+      showSection('review');
+      updateDots(2);
+    }
+  }
+
+  async function generateReview() {
+    const s = n => '★'.repeat(n)+'☆'.repeat(5-n);
+    const labels = ['料理の味','料理の見た目・盛り付け','ボリューム・量','店内の清潔さ・雰囲気','接客・スタッフの対応'];
+    const evalLines = ratings.map((r,i) => {
+      let instruction = r >= 4 ? '→【必ず具体的に絶賛する】' : r === 3 ? '→【「まずまずだった」「普通だった」と触れる】' : '→【必ず「残念だった」「改善してほしい」と正直に書く】';
+      return `・${labels[i]}：${r}/5　${instruction}`;
+    }).join('\n');
+    const prompt = `あなたは「元祖レア牛丼 頂（いただき）」に来店したお客様です。下記5項目の評価を【すべて文章に盛り込んで】Googleクチコミを書いてください。1項目も省略しないこと。
+
+【評価と書き方の指示（厳守）】
+${evalLines}
+
+【店舗情報】
+愛知県名古屋市大須にある「元祖レア牛丼 頂」。年間300頭しか出荷されない幻の黒毛和牛「鳳来牛」を使ったレア牛丼が看板メニュー。食材は全て愛知県産。矢場町駅から徒歩2分。
+
+【出力ルール】
+・200〜300文字の自然な口語体
+・お客様本人が書いたような文章
+・「鳳来牛」「大須」「矢場町」を自然に含める
+・評価1〜2の項目は必ず「〇〇は少し残念でした」「〇〇はもう少し改善してほしいです」のように明確に書く
+・文章のみ出力（前置き・説明不要）
+
+【例：料理★5、見た目★5、ボリューム★5、清潔さ★1、接客★1の場合】
+大須にある「元祖レア牛丼 頂」へ。鳳来牛を使ったレア牛丼は味も見た目も最高で、ボリュームも大満足でした。ただ、店内の清潔さが少し気になりました。接客面も改善の余地があると感じました。矢場町駅からすぐなのでアクセスは抜群です。`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:600, messages:[{role:'user',content:prompt}] })
+    });
+    if(!res.ok) throw new Error('API error');
+    const data = await res.json();
+    return data.content[0].text.trim();
+  }
+
+  function buildFallback() {
+    const avg = ratings.reduce((a,b)=>a+b,0)/5;
+    return avg >= 4
+      ? `大須にある「元祖レア牛丼 頂」に行ってきました。年間300頭しか出荷されない幻の黒毛和牛「鳳来牛」を使ったレア牛丼は、とろけるような食感で本当においしかったです。食材が全て愛知県産というこだわりも素晴らしく、盛り付けも美しい。矢場町駅からも近くアクセス抜群。名古屋に来たらぜひ一度食べてほしいお店です。`
+      : `大須の「元祖レア牛丼 頂」に行ってきました。幻の黒毛和牛「鳳来牛」を使ったレア牛丼はここでしか食べられない一品。愛知県産の食材にこだわったお店です。矢場町駅から徒歩2分とアクセスも良好です。`;
+  }
+
+  function copyReview() {
+    navigator.clipboard.writeText(generatedReview).then(() => {
+      const btn = document.getElementById('btn-copy');
+      document.getElementById('copy-icon').textContent = '✓';
+      document.getElementById('copy-label').textContent = 'コピーしました';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        document.getElementById('copy-icon').textContent = '📋';
+        document.getElementById('copy-label').textContent = '文章をコピーする';
+      }, 3000);
+    });
+  }
+
+  function openGoogle() {
+    copyReview();
+    setTimeout(() => window.open(GOOGLE_REVIEW_URL, '_blank'), 400);
+  }
+
+  function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(`section-${name}`).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function updateDots(current) {
+    document.querySelectorAll('.step-dot').forEach((dot,i) => {
+      dot.classList.remove('active','done');
+      if(i < current) dot.classList.add('done');
+      if(i === current) dot.classList.add('active');
+    });
+  }
+
+  function saveData(data) {
+    if(GAS_URL === 'YOUR_GAS_URL_HERE') return;
+    fetch(GAS_URL,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(console.error);
+  }
+</script>
+
+
+</body></html>
