@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0054)file:///C:/Users/maxsb/Downloads/itadaki_survey_2.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>アンケート｜元祖レア牛丼 頂</title>
 <style>
@@ -37,8 +37,8 @@
   .header { text-align:center; padding:48px 24px 32px; border-bottom:1px solid var(--border); position:relative; }
   .header::after { content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:var(--gold); }
   .logo-mark { font-family:'Shippori Mincho',serif; font-size:36px; color:var(--gold); letter-spacing:0.2em; line-height:1; margin-bottom:8px; }
-  .logo-sub { font-size:10px; letter-spacing:0.3em; color:var(--gray); text-transform:uppercase; }
-  .header-title { margin-top:24px; font-size:13px; letter-spacing:0.25em; color:var(--cream); opacity:0.8; }
+  .logo-sub { font-size:13px; letter-spacing:0.3em; color:var(--gray); text-transform:uppercase; }
+  .header-title { margin-top:24px; font-size:16px; letter-spacing:0.25em; color:var(--cream); opacity:0.8; }
 
   /* ステップ */
   .steps { display:flex; justify-content:center; gap:8px; padding:24px; }
@@ -53,11 +53,11 @@
 
   /* アンケート */
   .survey-intro { text-align:center; padding:8px 0 28px; }
-  .survey-intro p { font-size:12px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
+  .survey-intro p { font-size:15px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
   .survey-intro strong { color:var(--gold); font-weight:400; }
   .rating-item { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:2px; padding:20px 20px 16px; margin-bottom:12px; transition:border-color 0.3s; }
   .rating-item.rated { border-color:rgba(201,168,76,0.5); }
-  .rating-label { font-size:11px; letter-spacing:0.25em; color:var(--gray); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .rating-label { font-size:14px; letter-spacing:0.25em; color:var(--gray); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
   .rating-label::before { content:''; display:inline-block; width:16px; height:1px; background:var(--gold); opacity:0.5; }
   .stars { display:flex; gap:8px; justify-content:center; }
   .star { font-size:32px; cursor:pointer; color:rgba(255,255,255,0.25); transition:all 0.15s; user-select:none; line-height:1; }
@@ -69,42 +69,42 @@
   .btn-primary { background:var(--gold); color:var(--black); font-weight:600; }
   .btn-primary:hover { background:var(--gold-light); }
   .btn-primary:disabled { background:rgba(201,168,76,0.3); color:rgba(0,0,0,0.4); cursor:not-allowed; }
-  .btn-secondary { background:transparent; color:var(--gray); border:1px solid rgba(255,255,255,0.1); font-size:11px; letter-spacing:0.2em; }
+  .btn-secondary { background:transparent; color:var(--gray); border:1px solid rgba(255,255,255,0.1); font-size:14px; letter-spacing:0.2em; }
   .btn-secondary:hover { border-color:var(--gray); color:var(--cream); }
 
   /* AI生成中 */
   .generating { text-align:center; padding:80px 20px; }
   .generating-spinner { width:40px; height:40px; border:2px solid rgba(201,168,76,0.2); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 20px; }
   @keyframes spin { to{transform:rotate(360deg)} }
-  .generating p { font-size:12px; color:var(--gray); letter-spacing:0.2em; }
+  .generating p { font-size:15px; color:var(--gray); letter-spacing:0.2em; }
 
   /* クチコミ画面 */
   .review-intro { text-align:center; padding:8px 0 20px; }
-  .review-intro p { font-size:12px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
-  .review-section-title { font-size:10px; letter-spacing:0.35em; color:var(--gold); margin-bottom:12px; text-align:center; }
-  .review-text-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:2px; padding:20px; font-size:13px; line-height:2; color:var(--cream); letter-spacing:0.05em; min-height:140px; white-space:pre-wrap; }
-  .btn-copy { width:100%; padding:14px; margin-top:10px; background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:2px; color:var(--gold); font-family:'Noto Serif JP',serif; font-size:12px; letter-spacing:0.25em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .review-intro p { font-size:15px; color:var(--gray); line-height:1.8; letter-spacing:0.05em; }
+  .review-section-title { font-size:13px; letter-spacing:0.35em; color:var(--gold); margin-bottom:12px; text-align:center; }
+  .review-text-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:2px; padding:20px; font-size:16px; line-height:2; color:var(--cream); letter-spacing:0.05em; min-height:140px; white-space:pre-wrap; }
+  .btn-copy { width:100%; padding:14px; margin-top:10px; background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:2px; color:var(--gold); font-family:'Noto Serif JP',serif; font-size:15px; letter-spacing:0.25em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
   .btn-copy:hover { background:rgba(201,168,76,0.2); }
   .btn-copy.copied { background:rgba(201,168,76,0.25); border-color:var(--gold-light); color:var(--gold-light); }
-  .btn-google { width:100%; padding:14px; border:1px solid rgba(255,255,255,0.15); border-radius:2px; background:rgba(255,255,255,0.05); color:var(--cream); font-family:'Noto Serif JP',serif; font-size:12px; letter-spacing:0.2em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
+  .btn-google { width:100%; padding:14px; border:1px solid rgba(255,255,255,0.15); border-radius:2px; background:rgba(255,255,255,0.05); color:var(--cream); font-family:'Noto Serif JP',serif; font-size:15px; letter-spacing:0.2em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
   .btn-google:hover { background:rgba(255,255,255,0.1); }
   .google-icon { width:18px; height:18px; flex-shrink:0; }
-  .google-hint { font-size:10px; color:var(--gray); text-align:center; letter-spacing:0.1em; line-height:1.8; margin-top:8px; }
-  .divider { display:flex; align-items:center; gap:12px; margin:24px 0; color:var(--gray); font-size:10px; letter-spacing:0.2em; }
+  .google-hint { font-size:13px; color:var(--gray); text-align:center; letter-spacing:0.1em; line-height:1.8; margin-top:8px; }
+  .divider { display:flex; align-items:center; gap:12px; margin:24px 0; color:var(--gray); font-size:13px; letter-spacing:0.2em; }
   .divider::before, .divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.08); }
 
   /* クーポン */
   .coupon-box { margin:0 0 20px; border:1px solid var(--gold); border-radius:2px; padding:32px 24px; text-align:center; position:relative; background:rgba(201,168,76,0.04); }
-  .coupon-box::before, .coupon-box::after { content:'✦'; position:absolute; color:var(--gold); opacity:0.4; font-size:10px; }
+  .coupon-box::before, .coupon-box::after { content:'✦'; position:absolute; color:var(--gold); opacity:0.4; font-size:13px; }
   .coupon-box::before { top:12px; left:12px; }
   .coupon-box::after { bottom:12px; right:12px; }
-  .coupon-label { font-size:10px; letter-spacing:0.4em; color:var(--gold); margin-bottom:16px; text-transform:uppercase; }
+  .coupon-label { font-size:13px; letter-spacing:0.4em; color:var(--gold); margin-bottom:16px; text-transform:uppercase; }
   .coupon-discount { font-family:'Shippori Mincho',serif; font-size:52px; color:var(--gold); line-height:1; margin-bottom:4px; }
   .coupon-discount sup { font-size:20px; vertical-align:super; }
   .coupon-discount sub { font-size:18px; vertical-align:middle; }
-  .coupon-desc { font-size:13px; color:var(--cream); letter-spacing:0.15em; margin-bottom:20px; }
-  .coupon-code { background:rgba(0,0,0,0.4); border:1px dashed rgba(201,168,76,0.4); padding:10px 20px; display:inline-block; font-size:11px; letter-spacing:0.3em; color:var(--gold-light); margin-bottom:16px; }
-  .coupon-note { font-size:10px; color:var(--gray); letter-spacing:0.1em; line-height:1.8; }
+  .coupon-desc { font-size:16px; color:var(--cream); letter-spacing:0.15em; margin-bottom:20px; }
+  .coupon-code { background:rgba(0,0,0,0.4); border:1px dashed rgba(201,168,76,0.4); padding:10px 20px; display:inline-block; font-size:14px; letter-spacing:0.3em; color:var(--gold-light); margin-bottom:16px; }
+  .coupon-note { font-size:13px; color:var(--gray); letter-spacing:0.1em; line-height:1.8; }
   .coupon-note em { color:#e88; font-style:normal; }
 
   /* 完了 */
@@ -112,7 +112,7 @@
   .complete-mark { font-size:48px; margin-bottom:16px; opacity:0; animation:popIn 0.5s 0.2s ease forwards; }
   @keyframes popIn { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
   .complete-title { font-family:'Shippori Mincho',serif; font-size:20px; color:var(--gold); letter-spacing:0.3em; margin-bottom:12px; }
-  .complete-text { font-size:12px; color:var(--gray); line-height:2; letter-spacing:0.05em; }
+  .complete-text { font-size:15px; color:var(--gray); line-height:2; letter-spacing:0.05em; }
 </style>
 </head>
 <body>
@@ -170,7 +170,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" id="btn-submit" disabled onclick="submitSurvey()">
+    <button class="btn btn-primary" id="btn-submit" disabled="" onclick="submitSurvey()">
       回答する
     </button>
   </div>
@@ -200,10 +200,10 @@
 
     <button class="btn-google" onclick="openGoogle()">
       <svg class="google-icon" viewBox="0 0 24 24">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
       </svg>
       Googleマップを開く
     </button>
@@ -211,10 +211,10 @@
 
     <div class="divider">クーポンを受け取る</div>
 
-    <button class="btn btn-primary" onclick="showSection('coupon'); updateDots(3);">
+    <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
       300円引きクーポンを受け取る
     </button>
-    <button class="btn btn-secondary" onclick="showSection('coupon'); updateDots(3);">
+    <button class="btn btn-secondary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
       投稿せずにクーポンだけ受け取る
     </button>
   </div>
@@ -222,7 +222,7 @@
   <!-- STEP 4: クーポン -->
   <div class="section" id="section-coupon">
     <div style="text-align:center;padding:8px 0 20px;">
-      <p style="font-size:12px;color:var(--gray);line-height:1.8;">ありがとうございました。<br>会計時にこの画面をスタッフへご提示ください。</p>
+      <p style="font-size:15px;color:var(--gray);line-height:1.8;">ありがとうございました。<br>会計時にこの画面をスタッフへご提示ください。</p>
     </div>
     <div class="coupon-box">
       <div class="coupon-label">Thank you coupon</div>
@@ -365,5 +365,6 @@
     fetch(GAS_URL,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }).catch(console.error);
   }
 </script>
-</body>
-</html>
+
+
+</body></html>
