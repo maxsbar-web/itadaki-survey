@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///C:/Users/maxsb/Downloads/itadaki_survey_2.html -->
+<!-- saved from url=(0052)file:///C:/Users/maxsb/Downloads/itadaki_survey.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -184,6 +184,17 @@
   </div>
 
   <!-- STEP 3: クチコミ文章 + Google誘導 -->
+  <!-- フィードバック（平均3未満） -->
+  <div class="section" id="section-feedback">
+    <div style="text-align:center;padding:60px 20px 40px;">
+      <div style="font-size:48px;margin-bottom:24px;">🙏</div>
+      <p style="font-size:16px;color:var(--gray);line-height:2.2;">貴重なご意見をありがとうございます。<br>当店へのフィードバックとして<br>真摯に受け止め、改善に努めます。</p>
+    </div>
+    <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+      300円引きクーポンを受け取る
+    </button>
+  </div>
+
   <div class="section" id="section-review">
     <div class="review-intro">
       <p>AIがクチコミ文章を作成しました。<br>
@@ -274,39 +285,49 @@
   });
 
   async function submitSurvey() {
-    showSection('generating');
-    updateDots(1);
-    try {
-      generatedReview = await generateReview();
-    } catch(e) {
-      generatedReview = buildFallback();
-    }
-    document.getElementById('review-text').textContent = generatedReview;
+    const avg = ratings.reduce((a,b)=>a+b,0)/5;
     const code = 'ITADAKI-' + Math.random().toString(36).substr(2,6).toUpperCase();
     document.getElementById('coupon-code').textContent = code;
-    saveData({ ratings, avg:(ratings.reduce((a,b)=>a+b,0)/5).toFixed(1), code, timestamp:new Date().toISOString() });
-    showSection('review');
-    updateDots(2);
+    saveData({ ratings, avg:avg.toFixed(1), code, timestamp:new Date().toISOString() });
+
+    if(avg < 3) {
+      // 平均3未満：フィードバック画面（Googleマップに飛ばない）
+      showSection('feedback');
+      updateDots(2);
+    } else {
+      // 平均3以上：AI文章生成してGoogleマップへ誘導
+      showSection('generating');
+      updateDots(1);
+      try {
+        generatedReview = await generateReview();
+      } catch(e) {
+        generatedReview = buildFallback();
+      }
+      document.getElementById('review-text').textContent = generatedReview;
+      showSection('review');
+      updateDots(2);
+    }
   }
 
   async function generateReview() {
     const s = n => '★'.repeat(n)+'☆'.repeat(5-n);
+    const labels = ['料理の味','料理の見た目・盛り付け','ボリューム・量','店内の清潔さ・雰囲気','接客・スタッフの対応'];
+    const evalLines = ratings.map((r,i) => {
+      let comment = r >= 4 ? '（高評価・具体的に褒める）' : r === 3 ? '（普通・あっさり触れる程度でよい）' : '（低評価・正直に残念だった点として書く）';
+      return `・${labels[i]}：${s(r)}（${r}/5）${comment}`;
+    }).join('\n');
     const prompt = `あなたは「元祖レア牛丼 頂（いただき）」に来店したお客様です。以下のアンケート評価をもとに、Googleマップに投稿するクチコミ文章を日本語で作成してください。
 
 評価：
-・料理の味：${s(ratings[0])}（${ratings[0]}/5）
-・料理の見た目・盛り付け：${s(ratings[1])}（${ratings[1]}/5）
-・ボリューム・量：${s(ratings[2])}（${ratings[2]}/5）
-・店内の清潔さ・雰囲気：${s(ratings[3])}（${ratings[3]}/5）
-・接客・スタッフの対応：${s(ratings[4])}（${ratings[4]}/5）
+${evalLines}
 
 店舗情報：愛知県名古屋市大須にある「元祖レア牛丼 頂」。年間300頭しか出荷されない幻の黒毛和牛「鳳来牛」を使ったレア牛丼が看板メニュー。食材は全て愛知県産。矢場町駅から徒歩2分。
 
 条件：
 ・200〜300文字の自然な口語体
 ・お客様本人が書いたような文章
-・評価が高い項目（4以上）は具体的に褒める
-・評価が低い項目（3以下）には触れない
+・各項目の評価をそのまま反映した正直な内容にする
+・4〜5の項目は具体的に褒める、3の項目はさらっと触れる、1〜2の項目は「少し残念だった」「改善してほしい」のように正直に書く
 ・「鳳来牛」「大須」「矢場町」のキーワードを自然に含める
 ・文章のみ出力（前置き・説明・かぎかっこ不要）`;
 
