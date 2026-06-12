@@ -420,7 +420,7 @@
         ]
       }
     };
-    const currentMenu = menuData[selectedMenu] || menuData['鳳来牛'];
+    const currentMenu = menuData[selectedMenu] ? menuData[selectedMenu] : menuData['鳳来牛'];
     const cowInfo = currentMenu.infoList.map((info, i) => info);
     const access = [
       '矢場町駅4番出口から徒歩2分',
