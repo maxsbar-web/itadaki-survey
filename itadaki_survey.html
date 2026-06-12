@@ -281,6 +281,7 @@
 <script>
   const ratings = [null,null,null,null,null];
   let selectedMenu = '鳳来牛';
+  let currentMenuData = null;
   const GOOGLE_REVIEW_URL = 'https://g.page/r/CatW-yWsoQldEAE/review'; // 実際のURLに変更
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxC1qq1dXmhinVcAEFNNIBh8TTB8ggCaevVPi69KQ_DKxhqkRLbnAkfZLEuv5YzpeUn/exec'; // Google Apps ScriptのURLに変更
   let generatedReview = '';
@@ -420,7 +421,7 @@
         ]
       }
     };
-    const currentMenu = menuData[selectedMenu] ? menuData[selectedMenu] : menuData['鳳来牛'];
+    const currentMenu = currentMenuData || menuData['鳳来牛'];
     const cowInfo = currentMenu.infoList.map((info, i) => info);
     const access = [
       '矢場町駅4番出口から徒歩2分',
@@ -593,6 +594,7 @@ ${ending}
 
   function selectMenu(menu) {
     selectedMenu = menu;
+    currentMenuData = menuData[menu] || menuData['鳳来牛'];
     showSection('survey');
     updateDots(1);
   }
