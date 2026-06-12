@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(4).html -->
+<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(5).html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -93,7 +93,7 @@
   .btn-google { width:100%; padding:14px; border:1px solid rgba(255,255,255,0.15); border-radius:2px; background:rgba(255,255,255,0.05); color:var(--cream); font-family:'Noto Serif JP',serif; font-size:15px; letter-spacing:0.2em; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
   .btn-google:hover { background:rgba(255,255,255,0.1); }
   .google-icon { width:18px; height:18px; flex-shrink:0; }
-  .google-hint { font-size:13px; color:var(--gray); text-align:center; letter-spacing:0.1em; line-height:1.8; margin-top:8px; }
+  .google-hint { font-size:15px; color:var(--gold); text-align:center; letter-spacing:0.05em; line-height:1.8; margin-top:10px; font-weight:500; }
   .divider { display:flex; align-items:center; gap:12px; margin:24px 0; color:var(--gray); font-size:13px; letter-spacing:0.2em; }
   .divider::before, .divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.08); }
 
@@ -233,7 +233,7 @@
       </svg>
       Googleマップを開く
     </button>
-    <p class="google-hint">コピーした文章をそのまま貼り付けて投稿できます</p>
+    <p class="google-hint">📌 上の文章をコピーして、Googleマップに貼り付けて投稿してください</p>
 
     <button class="btn-back" onclick="goBack(&#39;survey&#39;)">← 評価をやり直す</button>
 
@@ -542,17 +542,48 @@ ${ending}
   }
 
   function copyReview() {
-    navigator.clipboard.writeText(generatedReview).then(() => {
+    const showCopied = () => {
       const btn = document.getElementById('btn-copy');
       document.getElementById('copy-icon').textContent = '✓';
-      document.getElementById('copy-label').textContent = 'コピーしました';
+      document.getElementById('copy-label').textContent = 'コピーしました！';
       btn.classList.add('copied');
       setTimeout(() => {
         btn.classList.remove('copied');
         document.getElementById('copy-icon').textContent = '📋';
         document.getElementById('copy-label').textContent = '文章をコピーする';
       }, 3000);
-    });
+    };
+    // iPhone/Safari対応：clipboard APIがあれば使い、なければexecCommandで代替
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(generatedReview).then(showCopied).catch(() => {
+        fallbackCopy();
+      });
+    } else {
+      fallbackCopy();
+    }
+  }
+
+  function fallbackCopy() {
+    const ta = document.createElement('textarea');
+    ta.value = generatedReview;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      const btn = document.getElementById('btn-copy');
+      document.getElementById('copy-icon').textContent = '✓';
+      document.getElementById('copy-label').textContent = 'コピーしました！';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        document.getElementById('copy-icon').textContent = '📋';
+        document.getElementById('copy-label').textContent = '文章をコピーする';
+      }, 3000);
+    } catch(e) {}
+    document.body.removeChild(ta);
   }
 
   function openGoogle() {
