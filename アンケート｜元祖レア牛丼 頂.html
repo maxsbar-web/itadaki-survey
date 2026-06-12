@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(3).html -->
+<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(4).html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -494,7 +494,8 @@
       ? `${cow}を使ったレア牛丼が看板メニュー。${ext}。${acc}。`
       : `${cow}を使ったレア牛丼が看板メニュー。${acc}。`;
 
-    const prompt = `あなたは「元祖レア牛丼 頂（いただき）」に実際に来店したお客様です。以下の【各項目の印象】をもとに、Googleクチコミとして投稿する文章を書いてください。
+    const menuLabel = selectedMenu + 'レア牛丼';
+    const prompt = `あなたは「元祖レア牛丼 頂（いただき）」で「${menuLabel}」を食べたお客様です。以下の【各項目の印象】をもとに、Googleクチコミとして投稿する文章を書いてください。
 
 【各項目の印象（全項目を必ず文章に反映すること）】
 ${partLines}
@@ -511,7 +512,8 @@ ${ending}
 ・同じ言葉や表現を繰り返さない
 ・良かった点と残念だった点が自然に共存する文章にする
 ・200〜300文字
-・文章のみ出力（前置き・説明・かぎかっこ不要）`;
+・文章のみ出力（前置き・説明・かぎかっこ不要）
+・【重要】お客様が食べたのは「${menuLabel}」です。それ以外のメニュー名（例：鳳来牛・みかわビーフの混在）は絶対に書かないでください`;
 
     return fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
