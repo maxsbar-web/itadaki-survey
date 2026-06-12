@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(1).html -->
+<!-- saved from url=(0058)file:///C:/Users/maxsb/Downloads/itadaki_survey%20(3).html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -43,6 +43,10 @@
   /* ステップ */
   .steps { display:flex; justify-content:center; gap:8px; padding:24px; }
   .step-dot { width:6px; height:6px; border-radius:50%; background:rgba(201,168,76,0.3); transition:all 0.3s; }
+  .btn-menu { display:block; width:100%; padding:20px; margin-bottom:16px; background:rgba(201,168,76,0.15); border:1px solid var(--gold); border-radius:8px; color:var(--gold); font-size:16px; letter-spacing:0.1em; cursor:pointer; text-align:center; }
+  .btn-menu:active { background:rgba(201,168,76,0.3); }
+  .btn-back { display:block; background:transparent; border:none; color:rgba(255,255,255,0.35); font-size:13px; padding:12px 0; margin-bottom:8px; cursor:pointer; text-align:left; letter-spacing:0.05em; }
+  .btn-coupon-sub { display:block; width:100%; padding:14px; background:transparent; border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:rgba(255,255,255,0.4); font-size:13px; letter-spacing:0.05em; cursor:pointer; text-align:center; margin-top:10px; }
   .step-dot.active { background:var(--gold); transform:scale(1.3); }
   .step-dot.done { background:var(--gold); opacity:0.5; }
 
@@ -131,8 +135,18 @@
     <div class="step-dot" id="dot3"></div>
   </div>
 
+  <!-- STEP 0: メニュー選択 -->
+  <div class="section active" id="section-menu">
+    <div class="survey-intro">
+      <p>本日お召し上がりになった<br>メニューを選んでください。</p>
+    </div>
+    <button class="btn-menu" onclick="selectMenu(&#39;鳳来牛&#39;)">🥩 鳳来牛レア牛丼</button>
+    <button class="btn-menu" onclick="selectMenu(&#39;みかわビーフ&#39;)">🥩 みかわビーフレア牛丼</button>
+  </div>
+
   <!-- STEP 1: アンケート -->
-  <div class="section active" id="section-survey">
+  <div class="section" id="section-survey">
+    <button class="btn-back" onclick="goBack(&#39;menu&#39;)">← メニュー選択に戻る</button>
     <div class="survey-intro">
       <p>本日のご来店、ありがとうございました。<br>
       5項目を<strong>⭐︎でご評価</strong>いただくだけで完了します。<br>
@@ -193,6 +207,7 @@
     <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
       300円引きクーポンを受け取る
     </button>
+    <button class="btn-back" onclick="goBack(&#39;survey&#39;)">← 評価をやり直す</button>
   </div>
 
   <div class="section" id="section-review">
@@ -220,12 +235,14 @@
     </button>
     <p class="google-hint">コピーした文章をそのまま貼り付けて投稿できます</p>
 
+    <button class="btn-back" onclick="goBack(&#39;survey&#39;)">← 評価をやり直す</button>
+
     <div class="divider">クーポンを受け取る</div>
 
-    <button class="btn btn-primary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+    <button class="btn-coupon-sub" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
       300円引きクーポンを受け取る
     </button>
-    <button class="btn btn-secondary" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
+    <button class="btn-coupon-sub" onclick="showSection(&#39;coupon&#39;); updateDots(3);">
       投稿せずにクーポンだけ受け取る
     </button>
   </div>
@@ -263,6 +280,7 @@
 </div>
 <script>
   const ratings = [null,null,null,null,null];
+  let selectedMenu = '鳳来牛';
   const GOOGLE_REVIEW_URL = 'https://g.page/r/CatW-yWsoQldEAE/review'; // 実際のURLに変更
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxC1qq1dXmhinVcAEFNNIBh8TTB8ggCaevVPi69KQ_DKxhqkRLbnAkfZLEuv5YzpeUn/exec'; // Google Apps ScriptのURLに変更
   let generatedReview = '';
@@ -348,13 +366,62 @@
       }
     };
 
-    const cowInfo = [
-      '年間わずか300頭しか出荷されない奥三河産の幻の黒毛和牛「鳳来牛」',
-      '生産農家わずか3戸という超希少な黒毛和牛「鳳来牛」',
-      '名酒「蓬莱泉・空」の酒粕を飼料に育てた「鳳来牛」',
-      '一般流通していない幻の牛「鳳来牛」',
-      '愛知県奥三河産・市場には出回らない希少な「鳳来牛」'
-    ];
+    const menuData = {
+      '鳳来牛': {
+        infoList: [
+          '年間わずか300頭しか出荷されない奥三河産の幻の黒毛和牛「鳳来牛」',
+          '生産農家わずか3戸という超希少な黒毛和牛「鳳来牛」',
+          '名酒「蓬莱泉・空」の酒粕を飼料に育てた「鳳来牛」',
+          '一般流通していない幻の牛「鳳来牛」',
+          '愛知県奥三河産・市場には出回らない希少な「鳳来牛」',
+          '年間300頭という極めて少ない生産量の奥三河産黒毛和牛「鳳来牛」',
+          'お店が直接仕入れる一般では手に入らない「鳳来牛」',
+          '奥三河の自然の中で育てられた幻の黒毛和牛「鳳来牛」',
+          '酒粕飼料で育てられた旨味が凝縮された「鳳来牛」',
+          '年間わずか3戸の農家だけが育てる奥三河の秘蔵牛「鳳来牛」'
+        ],
+        tasteList: [
+          '口の中でとろけるような食感が忘れられません',
+          '上品な甘みと旨味が口いっぱいに広がりました',
+          'まるでお肉が溶けていくような柔らかさでした',
+          '噛むたびに旨味があふれ出してくる感動の一品でした',
+          '脂の甘さと赤身の旨みのバランスが絶妙でした',
+          'これほど柔らかい牛肉は初めて食べました',
+          '繊細な旨味が口の中に広がり感動しました',
+          'レアの食感と深い旨味が見事に調和していました',
+          'ほんのりとした甘みと濃厚な風味が印象的でした',
+          '口どけの良さと余韻が長く続く贅沢な味わいでした'
+        ]
+      },
+      'みかわビーフ': {
+        infoList: [
+          '年間2000頭出荷の愛知ブランド牛「みかわビーフ」',
+          '22〜25ヶ月齢でじっくり育てた愛知県産「みかわビーフ」',
+          'おからを加えた飼料で良質なたんぱく質と繊維質をたっぷり含む「みかわビーフ」',
+          '赤身の旨さをダイレクトに楽しめる愛知県産「みかわビーフ」',
+          'ウチモモの赤身部位だけを贅沢に使った「みかわビーフ」',
+          '愛知が誇るブランド牛「みかわビーフ」のウチモモ赤身',
+          'おからで育てた健康的な赤身が自慢の「みかわビーフ」',
+          '三河の恵みを受けて育った愛知県産ブランド牛「みかわビーフ」',
+          '赤身本来の旨味を追求した愛知県産「みかわビーフ」',
+          'ウチモモの赤身だけを使った「みかわビーフ」'
+        ],
+        tasteList: [
+          '赤身ならではの濃厚な旨味がしっかりと感じられました',
+          '赤身の旨みがダイレクトに伝わってくる一品でした',
+          'くどさがなく赤身の美味しさを純粋に楽しめました',
+          '口の中でほぐれるような食感が印象的でした',
+          'しっかりとした肉の旨味が凝縮されていました',
+          '赤身好きにはたまらない濃厚な味わいでした',
+          'くどさはないのに旨味はしっかりと感じられました',
+          '赤身の力強い旨味が口いっぱいに広がりました',
+          '脂に頼らない赤身の濃厚な美味しさを改めて実感しました',
+          '噛むほどに旨味が出てきて最後まで飽きない味わいでした'
+        ]
+      }
+    };
+    const currentMenu = menuData[selectedMenu] || menuData['鳳来牛'];
+    const cowInfo = currentMenu.infoList.map((info, i) => info);
     const access = [
       '矢場町駅4番出口から徒歩2分',
       '大須観音駅からも徒歩圏内',
@@ -408,7 +475,9 @@
     const keys = ['味','見た目','ボリューム','清潔さ','接客'];
     const parts = ratings.map((r, i) => pick(templates[keys[i]][r]));
 
-    const cow = pick(cowInfo);
+    const cowInfo2 = currentMenu.infoList;
+    const tasteInfo = currentMenu.tasteList;
+    const cow = pick(cowInfo2) + '。' + pick(tasteInfo);
     const acc = pick(access);
     const ext = pick(extra);
     const ending = pick(endings);
@@ -425,21 +494,24 @@
       ? `${cow}を使ったレア牛丼が看板メニュー。${ext}。${acc}。`
       : `${cow}を使ったレア牛丼が看板メニュー。${acc}。`;
 
-    const prompt = `あなたはGoogleクチコミを書く編集者です。以下の【評価パーツ】と【店舗情報】と【締めのフレーズ】を使って、自然な口語体のクチコミ文章（200〜300文字）を1つ作ってください。
+    const prompt = `あなたは「元祖レア牛丼 頂（いただき）」に実際に来店したお客様です。以下の【各項目の印象】をもとに、Googleクチコミとして投稿する文章を書いてください。
 
-【評価パーツ（全て必ず含めること）】
+【各項目の印象（全項目を必ず文章に反映すること）】
 ${partLines}
 
-【店舗情報（自然に含めること）】
+【店舗情報（自然に盛り込むこと）】
 大須にある「元祖レア牛丼 頂」。${shopInfo}
 
-【締めのフレーズ（文末に使うこと）】
+【文末に使うフレーズ】
 ${ending}
 
-【ルール】
-・全評価パーツを省略せず自然につなぐ
-・200〜300文字の口語体
-・文章のみ出力（前置き・説明不要）`;
+【書き方のルール】
+・実際に食べた人が書いたような、自然で読みやすい口語体
+・箇条書きにせず、流れるような1つの文章にまとめる
+・同じ言葉や表現を繰り返さない
+・良かった点と残念だった点が自然に共存する文章にする
+・200〜300文字
+・文章のみ出力（前置き・説明・かぎかっこ不要）`;
 
     return fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
@@ -484,6 +556,25 @@ ${ending}
   function openGoogle() {
     copyReview();
     setTimeout(() => window.open(GOOGLE_REVIEW_URL, '_blank'), 400);
+  }
+
+  function selectMenu(menu) {
+    selectedMenu = menu;
+    showSection('survey');
+    updateDots(1);
+  }
+
+  function goBack(target) {
+    if (target === 'menu') {
+      ratings.fill(null);
+      document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+      document.getElementById('btn-submit').disabled = true;
+      showSection('menu');
+      updateDots(0);
+    } else if (target === 'survey') {
+      showSection('survey');
+      updateDots(1);
+    }
   }
 
   function showSection(name) {
