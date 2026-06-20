@@ -502,38 +502,42 @@
 
     const pick = arr => arr[Math.floor(Math.random() * arr.length)];
     const keys = ['味','見た目','ボリューム','清潔さ','接客'];
-    const parts = ratings.map((r, i) => pick(templates[keys[i]][r]));
+    const scoredItems = ratings.map((r, i) => ({ cat: keys[i], score: r, text: pick(templates[keys[i]][r]) }));
+    const goodItems = scoredItems.filter(r => r.score >= 4).map(r => r.text);
+    const badItems = scoredItems.filter(r => r.score <= 2).map(r => r.text);
 
     const opening = pick(openings);
     const taste = pick(currentMenu.tasteList);
     const ending = pick(endings);
 
     const menuLabel = selectedMenu + 'レア牛丼';
-    const prompt = `あなたは大須の「元祖レア牛丼 頂」で「${menuLabel}」を食べた一般客です。以下の情報をもとに、自分の言葉でGoogleクチコミを書いてください。
 
-【文章の書き出し（必ずこの一文から始めること）】
+    const goodLine = goodItems.length > 0 ? `良かった点：${goodItems.join('、')}` : '';
+    const badLine = badItems.length > 0 ? `気になった点：${badItems.join('、')}` : '';
+    const evaluationLines = [goodLine, badLine].filter(Boolean).join('\n');
+
+    const prompt = `「元祖レア牛丼 頂」（大須）で${menuLabel}を食べたお客様のクチコミを書いてください。
+
+【評価内容】
+${evaluationLines || '全体的に普通の印象でした'}
+肉の味・食感：${taste}
+
+【書き出し】次の文で始めること：
 ${opening}
 
-【食べた感想のヒント（全部を羅列せず、自然に2〜3点を選んで使うこと）】
-・味について：${parts[0]}
-・見た目について：${parts[1]}
-・ボリュームについて：${parts[2]}
-・雰囲気について：${parts[3]}
-・接客について：${parts[4]}
-・肉の食感や味わい：${taste}
-
-【文章の締め（必ずこの一文で終えること）】
+【締め】次の文で終わること：
 ${ending}
 
-【守るべきルール】
-・書き出しと締めの文は必ず使う。それ以外は自分の言葉で自由に書く
-・感想ヒントは全部書かなくてよい。自然につながる2〜3点だけ選ぶ
-・箇条書きにしない。会話するような自然な口語体で1つの文章にまとめる
-・同じ言葉・表現を繰り返さない
-・牛の産地・生産頭数・飼料などの詳細情報は書かない
-・200〜300文字
-・文章のみ出力（前置き・説明・見出し不要）
-・食べたのは${menuLabel}。他のメニュー名は絶対に書かない`;
+【ルール】
+- 書き出しと締めはそのまま使う
+- 良かった点と気になった点を自然に織り交ぜる（全部書かなくてよい）
+- 「〜でした。〜でした。〜でした。」という同じ文末の繰り返しは絶対にしない
+- 「〜も〜、〜も〜」という「も」の連続は絶対にしない
+- アクセス情報（矢場町駅など）は書かない
+- 牛の産地・頭数などの詳細情報は書かない
+- 普通の人が書く自然な口語体で、150〜250文字
+- 文章のみ出力（説明・前置き不要）
+- メニュー名は${menuLabel}のみ使う`;
 
     return fetch('https://api.anthropic.com/v1/messages', {
       method:'POST',
